@@ -15,7 +15,7 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 const List = () => {
     return (
         <>
-            <Card className="list-card" sx={{ minWidth: 275, background:"#283593", color:'white',marginTop:5 }}>
+            <Card className="list-card" sx={{ minWidth: 275, background:"#4C4BD2", color:'white',marginTop:5 }}>
                 <CardContent>
                     <Grid container spacing={2}>
                         <Grid size={8}>
