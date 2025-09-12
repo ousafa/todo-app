@@ -15,12 +15,15 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 const List = () => {
     return (
         <>
-            <Card sx={{ minWidth: 275, background:"#283593", color:'white',marginTop:5 }}>
+            <Card className="list-card" sx={{ minWidth: 275, background:"#283593", color:'white',marginTop:5 }}>
                 <CardContent>
                     <Grid container spacing={2}>
                         <Grid size={8}>
                             <Typography variant="h5" sx={{ textAlign: "right" }}>
                                 title
+                            </Typography>
+                            <Typography variant="h6" sx={{ textAlign: "right" }}>
+                                Details
                             </Typography>
                         </Grid>
 
