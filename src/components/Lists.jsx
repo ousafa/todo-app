@@ -9,6 +9,8 @@ import {
     Typography
 } from "@mui/material";
 
+//Components
+import List from './List.jsx'
 const Lists = () => {
     return (
         <>
@@ -32,6 +34,10 @@ const Lists = () => {
                             <ToggleButton value="ios">الكل</ToggleButton>
                         </ToggleButtonGroup>
                         {/* === FILTER BUTTONS === */}
+
+                        {/* ALL TODOS */}
+                        <List />
+                        {/* === ALL TODOS === */}
                     </CardContent>
                 </Card>
             </Container>

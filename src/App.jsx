@@ -1,16 +1,10 @@
-import Lists from './components/Lists';
+import Lists from './components/Lists.jsx';
 import './App.css'
 
 function App() {
 
   return (
-    <div className="App" style={{
-        background: "#191b1f",
-        direction:"rtl",
-        display: "flex",
-        justifyContent: "center",
-        height: "100vh",
-        alignItems: "center",}}>
+    <div className="App">
         <Lists />
     </div>
   )
