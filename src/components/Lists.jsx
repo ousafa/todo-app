@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {
+    useState
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -17,7 +19,7 @@ import {
 //Components
 import List from './List.jsx'
 
-const todos = [
+const initialTodos = [
     {
         id: uuidv4(),
         title: "قراءة كتاب",
@@ -38,6 +40,20 @@ const todos = [
     },
 ]
 const Lists = () => {
+    const [todos, setTodos] = useState(initialTodos)
+    const [title, setTitle] = useState('');
+
+    function handleAddClick() {
+        const newTodos = {
+            id: uuidv4(),
+            title: title,
+            details: '',
+            isCompleted: false,
+        }
+        setTodos([...todos, newTodos])
+        setTitle('')
+
+    }
     return (
         <>
             <Container maxWidth="sm">
@@ -70,12 +86,20 @@ const Lists = () => {
                         {/* INPUT + SUBMIT BUTTON */}
                         <Grid container style={{marginTop:"20px"}} spacing={1}>
                             <Grid size={8} display="flex" justifyContent="space-around" alignItems="center">
-                                <TextField  style={{width:"100%"}} id="outlined-basic" label="عنوان المهمة"  variant="outlined" />
+                                <TextField
+                                    style={{width:"100%"}}
+                                    id="outlined-basic"
+                                    label="عنوان المهمة"
+                                    variant="outlined"
+                                    value = {title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
                             </Grid>
                             <Grid size={4} display="flex" justifyContent="space-around" alignItems="center">
                                 <Button
                                     style={{ width: "100%",height: "100%", background:"#96173D" }}
                                     variant="contained"
+                                    onClick={handleAddClick}
                                 >
                                     إضافة
                                 </Button>
