@@ -1,4 +1,6 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
+
 import {
     Button,
     Card,
@@ -14,6 +16,27 @@ import {
 
 //Components
 import List from './List.jsx'
+
+const todos = [
+    {
+        id: uuidv4(),
+        title: "قراءة كتاب",
+        details: "تيسمبتيس يتسبميتس بيمستب",
+        isCompleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "قراءة كتاب",
+        details: "تيسمبتيس يتسبميتس بيمستب",
+        isCompleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "قراءة كتاب",
+        details: "تيسمبتيس يتسبميتس بيمستب",
+        isCompleted: false,
+    },
+]
 const Lists = () => {
     return (
         <>
@@ -39,7 +62,9 @@ const Lists = () => {
                         {/* === FILTER BUTTONS === */}
 
                         {/* ALL TODOS */}
-                        <List />
+                        {todos.map((todo) => {
+                            return <List key={todo.id} title={todo.title} details={todo.details}/>
+                        })}
                         {/* === ALL TODOS === */}
 
                         {/* INPUT + SUBMIT BUTTON */}

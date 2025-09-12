@@ -1,18 +1,13 @@
-import React
-    from 'react';
-import {
-    Card,
-    CardContent,
-    Grid,
-    Typography
-} from "@mui/material";
+import React from 'react';
+import {Card, CardContent, Grid, Typography} from "@mui/material";
+
 // ICONS
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import IconButton from "@mui/material/IconButton";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 
-const List = () => {
+const List = ({title,details}) => {
     return (
         <>
             <Card className="list-card" sx={{ minWidth: 275, background:"#4C4BD2", color:'white',marginTop:5 }}>
@@ -20,10 +15,10 @@ const List = () => {
                     <Grid container spacing={2}>
                         <Grid size={8}>
                             <Typography variant="h5" sx={{ textAlign: "right" }}>
-                                title
+                                {title}
                             </Typography>
                             <Typography variant="h6" sx={{ textAlign: "right" }}>
-                                Details
+                                {details}
                             </Typography>
                         </Grid>
 
