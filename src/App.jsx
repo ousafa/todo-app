@@ -1,14 +1,18 @@
-import List from './components/List';
+import Lists from './components/Lists';
 import './App.css'
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 function App() {
 
   return (
-    <>
-        <List />
-        <AddCircleIcon/>
-    </>
+    <div className="App" style={{
+        background: "#191b1f",
+        direction:"rtl",
+        display: "flex",
+        justifyContent: "center",
+        height: "100vh",
+        alignItems: "center",}}>
+        <Lists />
+    </div>
   )
 }
 
