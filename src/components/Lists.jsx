@@ -26,12 +26,15 @@ import {TodosContext} from "../contexts/todosContext.js";
 
 const Lists = () => {
    const {todos, setTodos} = useContext(TodosContext);
+    const [todosType, setTodosType] = useState("all")
    const [title, setTitle] = useState('');
 
     useEffect(() => {
         const storageTodos = JSON.parse(localStorage.getItem("todos"));
         setTodos(storageTodos);
     }, []);
+
+
 
 
     function handleAddClick() {
@@ -47,6 +50,10 @@ const Lists = () => {
         setTitle('')
 
     }
+
+    function changeTodosType(e){
+        setTodosType(e.target.value);
+    }
     return (
         <>
             <Container maxWidth="sm">
@@ -59,23 +66,72 @@ const Lists = () => {
                         <ToggleButtonGroup
                             style={{direction:"ltr",marginTop:"30px"}}
                             color="primary"
-                            //value={alignment}
+                            value={todosType}
                             exclusive //only one button to be selected at a time.
                             //onChange={handleChange}
                             aria-label="Filter"
+                            onChange={changeTodosType}
+
                         >
-                            <ToggleButton value="web">غير المنجز</ToggleButton>
-                            <ToggleButton value="android">المنجز</ToggleButton>
-                            <ToggleButton value="ios">الكل</ToggleButton>
+                            <ToggleButton  sx={{
+                                "&.Mui-selected": {
+                                    backgroundColor: "#96173D",
+                                    color: "white",
+                                    fontWeight: "bold",
+                                },
+                                "&.Mui-selected:hover": {
+                                    backgroundColor: "#750f2e",
+                                    color: "white",
+                                },
+                            }} value="non-completed">غير المنجز</ToggleButton>
+                            <ToggleButton sx={{
+                                "&.Mui-selected": {
+                                    backgroundColor: "#96173D",
+                                    color: "white",
+                                    fontWeight: "bold",
+                                },
+                                "&.Mui-selected:hover": {
+                                    backgroundColor: "#750f2e",
+                                    color: "white",
+                                },
+                            }} value="completed">المنجز</ToggleButton>
+                            <ToggleButton sx={{
+                                "&.Mui-selected": {
+                                    backgroundColor: "#96173D",
+                                    color: "white",
+                                    fontWeight: "bold",
+                                },
+                                "&.Mui-selected:hover": {
+                                    backgroundColor: "#750f2e",
+                                    color: "white",
+                                },
+                            }} value="all">الكل</ToggleButton>
                         </ToggleButtonGroup>
                         {/* === FILTER BUTTONS === */}
 
                         {/* ALL TODOS */}
-                        {todos.map((todo) => {
-                            return <List key={todo.id} todo={todo}/>
-                        })}
+                        {todosType === 'all' &&
+                            todos.map((todo) => (
+                                    <List key={todo.id} todo={todo}/>
+                        ))}
                         {/* === ALL TODOS === */}
 
+                        {/* COMPLETED TODOS */}
+                        {todosType === 'completed' &&
+                            todos.filter((todo) => todo.isCompleted)
+                                .map((todo) => (
+                                <List key={todo.id} todo={todo} />
+                            ))
+                        }
+                        {/* === COMPLETED TODOS === */}
+
+                        {/* NON COMPLETED TODOS */}
+                        {todosType === 'non-completed' &&
+                            todos.filter((todo) => !todo.isCompleted)
+                                .map((todo) => (
+                                    <List key={todo.id} todo={todo} />
+                                ))
+                        }
                         {/* INPUT + SUBMIT BUTTON */}
                         <Grid container style={{marginTop:"20px"}} spacing={1}>
                             <Grid size={8} display="flex" justifyContent="space-around" alignItems="center">
