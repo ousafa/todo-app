@@ -1,9 +1,4 @@
-import React, {
-    useContext,
-    useEffect,
-    useState
-} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Button,
     Card,
@@ -17,17 +12,21 @@ import {
     Typography
 } from "@mui/material";
 
-//Components
+//COMPONENTS
 import List from './List.jsx'
 
-//Others
+//OTHERS
 import {TodosContext} from "../contexts/todosContext.js";
+import { v4 as uuidv4 } from 'uuid';
+
 
 
 const Lists = () => {
-   const {todos, setTodos} = useContext(TodosContext);
+
+    const {todos, setTodos} = useContext(TodosContext);
+    const [title, setTitle] = useState('');
+
     const [todosType, setTodosType] = useState("all")
-   const [title, setTitle] = useState('');
 
     useEffect(() => {
         const storageTodos = JSON.parse(localStorage.getItem("todos"));
@@ -35,8 +34,7 @@ const Lists = () => {
     }, []);
 
 
-
-
+    // EVENT HANDLERS
     function handleAddClick() {
         const newTodos = {
             id: uuidv4(),
@@ -50,6 +48,7 @@ const Lists = () => {
         setTitle('')
 
     }
+    // === EVENT HANDLERS ===
 
     function changeTodosType(e){
         setTodosType(e.target.value);
@@ -57,7 +56,11 @@ const Lists = () => {
     return (
         <>
             <Container maxWidth="sm">
-                <Card sx={{ minWidth: 275 }}>
+                <Card sx={{ minWidth: 275 }} style={{
+                    maxHeight: "90vh",
+                    overflow: "scroll"
+
+                }}>
                     <CardContent>
                         <Typography variant="h2" style={{fontWeight:"bold"}}>مهامي</Typography>
                         <Divider variant="middle"  />
@@ -71,41 +74,10 @@ const Lists = () => {
                             //onChange={handleChange}
                             aria-label="Filter"
                             onChange={changeTodosType}
-
                         >
-                            <ToggleButton  sx={{
-                                "&.Mui-selected": {
-                                    backgroundColor: "#96173D",
-                                    color: "white",
-                                    fontWeight: "bold",
-                                },
-                                "&.Mui-selected:hover": {
-                                    backgroundColor: "#750f2e",
-                                    color: "white",
-                                },
-                            }} value="non-completed">غير المنجز</ToggleButton>
-                            <ToggleButton sx={{
-                                "&.Mui-selected": {
-                                    backgroundColor: "#96173D",
-                                    color: "white",
-                                    fontWeight: "bold",
-                                },
-                                "&.Mui-selected:hover": {
-                                    backgroundColor: "#750f2e",
-                                    color: "white",
-                                },
-                            }} value="completed">المنجز</ToggleButton>
-                            <ToggleButton sx={{
-                                "&.Mui-selected": {
-                                    backgroundColor: "#96173D",
-                                    color: "white",
-                                    fontWeight: "bold",
-                                },
-                                "&.Mui-selected:hover": {
-                                    backgroundColor: "#750f2e",
-                                    color: "white",
-                                },
-                            }} value="all">الكل</ToggleButton>
+                            <ToggleButton value="non-completed">غير المنجز</ToggleButton>
+                            <ToggleButton value="completed">المنجز</ToggleButton>
+                            <ToggleButton value="all">الكل</ToggleButton>
                         </ToggleButtonGroup>
                         {/* === FILTER BUTTONS === */}
 
@@ -132,6 +104,8 @@ const Lists = () => {
                                     <List key={todo.id} todo={todo} />
                                 ))
                         }
+                        {/* === NON COMPLETED TODOS === */}
+
                         {/* INPUT + SUBMIT BUTTON */}
                         <Grid container style={{marginTop:"20px"}} spacing={1}>
                             <Grid size={8} display="flex" justifyContent="space-around" alignItems="center">
@@ -146,9 +120,10 @@ const Lists = () => {
                             </Grid>
                             <Grid size={4} display="flex" justifyContent="space-around" alignItems="center">
                                 <Button
-                                    style={{ width: "100%",height: "100%", background:"#96173D" }}
+                                    style={{ width: "100%",height: "100%" }}
                                     variant="contained"
                                     onClick={handleAddClick}
+                                    disabled={title.length === 0}
                                 >
                                     إضافة
                                 </Button>

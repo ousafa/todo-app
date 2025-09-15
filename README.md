@@ -1,12 +1,68 @@
-# React + Vite
+# 📝 React Todo List App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and modern **Todo List Application** built with **React** and **Material UI (MUI)**.  
+This app allows you to create, update, complete, and delete tasks, with a clean UI and responsive design.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- ➕ Add new tasks with title & details
+- ✅ Mark tasks as **completed** or **non-completed**
+- ✏️ Update task title
+- 🗑️ Delete tasks (with confirmation dialog)
+- 📂 Filter tasks by:
+    - All
+    - Completed
+    - Non-completed
+- 🎨 Styled using **Material UI** with custom theme
+- 💾 Save todos to localStorage 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+- ⚛️ **React** (hooks: useState, useContext)
+- 🎨 **Material UI (MUI)** for UI components
+- 🆔 **UUID** for generating unique task IDs
+- 📦 **Context API** for state management
+
+---
+
+## 📂 Project Structure  
+`````
+  src/
+  │── components/
+  │ ├── List.jsx # Single Todo Item (Card with actions)
+  │ ├── Lists.jsx # Displays filtered list of todos
+  │ 
+  │
+  │── contexts/
+  │ └── todosContext.js # Context Provider for todos
+  │
+  │── App.jsx # Main app with filtering & state
+  │── index.js # Entry point
+`````
+
+---
+
+## ▶️ Installation & Setup
+
+1. Clone the repo:
+```
+   git clone https://github.com/ousafa/todo-app.git
+   cd todo-app
+   npm install
+  `````
+---
+## 📸 Screenshots
+![All Tasks](./public/screenshots/all-task.png)
+![Edit Task](./public/screenshots/edit-task.png)
+![Completed Task](./public/screenshots/completed-task.png)
+![Not Completed](./public/screenshots/not-completd.png)
+![Delete Task](./public/screenshots/delete.png)
+
+---
+## 📚 Resources & Credits
+This project was built by following the tutorials from [أكاديمية ترميز](https://www.youtube.com/@tarmeez) on YouTube.  
+Big thanks to their content for helping me learn and apply React concepts in practice. 🚀

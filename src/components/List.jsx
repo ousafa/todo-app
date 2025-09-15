@@ -25,11 +25,10 @@ import {TodosContext} from "../contexts/todosContext.js";
 const List = ({todo: {id,title,details,isCompleted}}) => {
 
     const [dialogType , setDialogType ] = useState(null);
-    //const [open, setOpen] = useState(false);
+
     const {todos,setTodos} = useContext(TodosContext);
-    const [updatedTodo, setUpdatedTodo] = useState(
-        {title:title,details:details}
-    )
+    const [updatedTodo, setUpdatedTodo] = useState({title:title,details:details})
+
     // EVENT HANDLERS
     function handleCheckClick() {
         const updatedTodos = todos.map((todo) =>
@@ -80,6 +79,7 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
 
     return (
         <>
+            {/* DELETE & UPDATE DIALOG */}
             <Dialog open={dialogType !== null} onClose={handleClose}>
                 {dialogType === "delete" && (
                     <>
@@ -90,13 +90,12 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} style={{ color: "#96173D" }}>
+                            <Button onClick={handleClose} >
                                 إغلاق
                             </Button>
                             <Button
                                 onClick={handleDeleteConfirm}
                                 autoFocus
-                                style={{ color: "#96173D" }}
                             >
                                 نعم، قم بالحذف
                             </Button>
@@ -151,13 +150,14 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
                     </>
                 )}
             </Dialog>
+            {/* === DELETE & UPDATE DIALOG === */}
 
-
+            {/* TODO CARD */}
             <Card className="list-card" sx={{ minWidth: 275, background:"#4C4BD2", color:'white',marginTop:5 }}>
                 <CardContent>
                     <Grid container spacing={2}>
                         <Grid size={8}>
-                            <Typography variant="h5" sx={{ textAlign: "right" }}>
+                            <Typography variant="h5" sx={{ textAlign: "right", textDecoration: isCompleted ? "line-through" : "none" }}>
                                 {title}
                             </Typography>
                             <Typography variant="h6" sx={{ textAlign: "right" }}>
@@ -216,7 +216,7 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
                     </Grid>
                 </CardContent>
             </Card>
-
+            {/* === TODO CARD === */}
         </>
     );
 };
