@@ -1,6 +1,10 @@
 import Lists from './components/Lists.jsx';
 import './App.css'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {v4 as uuidv4} from 'uuid';
+import {TodosContext} from "./contexts/todosContext.js";
+import {useState} from "react";
+
 
 const theme = createTheme({
     typography: {
@@ -8,12 +12,34 @@ const theme = createTheme({
     }
 })
 
+const initialTodos = [
+    {
+        id: uuidv4(),
+        title: "قراءة كتاب",
+        details: "تيسمبتيس يتسبميتس بيمستب",
+        isCompleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "قراءة كتاب",
+        details: "تيسمبتيس يتسبميتس بيمستب",
+        isCompleted: false,
+    },
+    {
+        id: uuidv4(),
+        title: "قراءة كتاب",
+        details: "تيسمبتيس يتسبميتس بيمستب",
+        isCompleted: false,
+    },
+];
 function App() {
-
-  return (
+    const [todos, setTodos] = useState(initialTodos);
+    return (
       <ThemeProvider theme={theme}>
         <div className="App">
-            <Lists />
+            <TodosContext value={{todos, setTodos}}>
+                <Lists />
+            </TodosContext>
         </div>
       </ThemeProvider>
   )

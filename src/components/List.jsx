@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Card, CardContent, Grid, Typography} from "@mui/material";
 
 // ICONS
@@ -7,7 +7,20 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import IconButton from "@mui/material/IconButton";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 
-const List = ({title,details}) => {
+//OTHERS
+import {TodosContext} from "../contexts/todosContext.js";
+
+const List = ({todo: {id,title,details,isCompleted}}) => {
+
+    const {todos,setTodos} = useContext(TodosContext);
+
+    function handleCheckClick() {
+        const updatedTodos = todos.map((todo) =>
+            todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+        );
+        setTodos(updatedTodos);
+    }
+
     return (
         <>
             <Card className="list-card" sx={{ minWidth: 275, background:"#4C4BD2", color:'white',marginTop:5 }}>
@@ -24,17 +37,20 @@ const List = ({title,details}) => {
 
                         {/* ACTION BUTTONS */}
                         <Grid size={4} display="flex" justifyContent="space-around" alignItems="center">
+                            {/* ChECK ICON BUTTON */}
                             <IconButton
+                                onClick={handleCheckClick}
                                 className="iconButton"
                                 aria-label="check"
                                 style={{
-                                    color: "#8bc34a",
-                                    background: "white",
+                                    color: isCompleted ? "white" : "#8bc34a",
+                                    background: isCompleted ? "#8bc34a" : "white",
                                     border: "solid #8bc34a 3px",
                                 }}
                             >
                                 <CheckIcon />
                             </IconButton>
+                            {/* === ChECK ICON BUTTON ===  */}
                             <IconButton
                                 className="iconButton"
                                 aria-label="edit"

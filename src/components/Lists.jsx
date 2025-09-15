@@ -1,8 +1,5 @@
-import React, {
-    useState
-} from 'react';
+import React, {useContext, useState} from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
 import {
     Button,
     Card,
@@ -19,28 +16,12 @@ import {
 //Components
 import List from './List.jsx'
 
-const initialTodos = [
-    {
-        id: uuidv4(),
-        title: "قراءة كتاب",
-        details: "تيسمبتيس يتسبميتس بيمستب",
-        isCompleted: false,
-    },
-    {
-        id: uuidv4(),
-        title: "قراءة كتاب",
-        details: "تيسمبتيس يتسبميتس بيمستب",
-        isCompleted: false,
-    },
-    {
-        id: uuidv4(),
-        title: "قراءة كتاب",
-        details: "تيسمبتيس يتسبميتس بيمستب",
-        isCompleted: false,
-    },
-]
+//Others
+import {TodosContext} from "../contexts/todosContext.js";
+
+
 const Lists = () => {
-    const [todos, setTodos] = useState(initialTodos)
+   const {todos, setTodos} = useContext(TodosContext);
     const [title, setTitle] = useState('');
 
     function handleAddClick() {
@@ -79,7 +60,7 @@ const Lists = () => {
 
                         {/* ALL TODOS */}
                         {todos.map((todo) => {
-                            return <List key={todo.id} title={todo.title} details={todo.details}/>
+                            return <List key={todo.id} todo={todo}/>
                         })}
                         {/* === ALL TODOS === */}
 
