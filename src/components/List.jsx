@@ -9,6 +9,7 @@ import {
     DialogContentText,
     DialogTitle,
     Grid,
+    TextField,
     Typography
 } from "@mui/material";
 
@@ -23,23 +24,27 @@ import {TodosContext} from "../contexts/todosContext.js";
 
 const List = ({todo: {id,title,details,isCompleted}}) => {
 
-    const [open, setOpen] = useState(false);
+    const [dialogType , setDialogType ] = useState(null);
+    //const [open, setOpen] = useState(false);
     const {todos,setTodos} = useContext(TodosContext);
-
+    const [updatedTodo, setUpdatedTodo] = useState(
+        {title:title,details:details}
+    )
     // EVENT HANDLERS
     function handleCheckClick() {
         const updatedTodos = todos.map((todo) =>
             todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
         );
         setTodos(updatedTodos);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
     }
 
     function handleDeleteClick() {
-        setOpen(true);
+       setDialogType('delete');
     }
 
     function handleClose()  {
-        setOpen(false);
+        setDialogType(null);
     }
 
     function handleDeleteConfirm() {
@@ -47,36 +52,107 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
             return todo.id !== id;
         })
         setTodos(updatedTodos);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
+        setDialogType(null);
     }
 
+    function handleUpdateClick() {
+        setDialogType("update");
+    }
 
+    function handleUpdateConfirm() {
+        const updatedTodos = todos.map((todo)=>{
+            if(todo.id === id){
+                return {
+                    ...todo,
+                    title:updatedTodo.title,
+                    details:updatedTodo.details,
+                }
+            }else{
+                return todo;
+            }
+        });
+        setTodos(updatedTodos);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
+        setDialogType(null);
+    }
     // === EVENT HANDLERS ===
 
     return (
         <>
-           {/* DELETE DIALOG */}
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    هل أنت متأكد من رغبتك في حذف المهمة؟
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        لا يمكنك التراجع عن الحذف بعد إتمامه.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} style={{color:'#96173D'}}>إغلاق</Button>
-                    <Button onClick={handleDeleteConfirm} autoFocus style={{color:'#96173D'}}>
-                        نعم، قم بالحذف
-                    </Button>
-                </DialogActions>
+            <Dialog open={dialogType !== null} onClose={handleClose}>
+                {dialogType === "delete" && (
+                    <>
+                        <DialogTitle>هل أنت متأكد من رغبتك في حذف المهمة؟</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                لا يمكنك التراجع عن الحذف بعد إتمامه.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} style={{ color: "#96173D" }}>
+                                إغلاق
+                            </Button>
+                            <Button
+                                onClick={handleDeleteConfirm}
+                                autoFocus
+                                style={{ color: "#96173D" }}
+                            >
+                                نعم، قم بالحذف
+                            </Button>
+                        </DialogActions>
+                    </>
+                )}
+
+                {dialogType === "update" && (
+                    <>
+                        <DialogTitle>تعديل مهمة</DialogTitle>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="title"
+                                name="title"
+                                label="عنوان المهمة"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={updatedTodo.title}
+                                onChange={(e)=>{
+                                    setUpdatedTodo({...updatedTodo, title:e.target.value});
+                                }}
+                            />
+                            <TextField
+                                margin="dense"
+                                id="details"
+                                name="details"
+                                label="تفاصيل"
+                                type="text"
+                                fullWidth
+                                variant="standard"
+                                value={updatedTodo.details}
+                                onChange={(e)=>{
+                                    setUpdatedTodo({...updatedTodo, details:e.target.value});
+                                }}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} style={{ color: "#96173D" }}>
+                                إغلاق
+                            </Button>
+                            <Button
+                                onClick={handleUpdateConfirm}
+                                autoFocus
+                                style={{ color: "#96173D" }}
+                            >
+                                حفظ التغييرات
+                            </Button>
+                        </DialogActions>
+                    </>
+                )}
             </Dialog>
-            {/* === DELETE DIALOG === */}
+
+
             <Card className="list-card" sx={{ minWidth: 275, background:"#4C4BD2", color:'white',marginTop:5 }}>
                 <CardContent>
                     <Grid container spacing={2}>
@@ -91,7 +167,7 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
 
                         {/* ACTION BUTTONS */}
                         <Grid size={4} display="flex" justifyContent="space-around" alignItems="center">
-                            {/* ChECK ICON BUTTON */}
+                            {/* CHECK ICON BUTTON */}
                             <IconButton
                                 onClick={handleCheckClick}
                                 className="iconButton"
@@ -104,7 +180,9 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
                             >
                                 <CheckIcon />
                             </IconButton>
-                            {/* === ChECK ICON BUTTON ===  */}
+                            {/* === CHECK ICON BUTTON ===  */}
+
+                            {/* UPDATE ICON BUTTON */}
                             <IconButton
                                 className="iconButton"
                                 aria-label="edit"
@@ -113,9 +191,12 @@ const List = ({todo: {id,title,details,isCompleted}}) => {
                                     background: "white",
                                     border: "solid #1769aa 3px",
                                 }}
+                                onClick={handleUpdateClick}
                             >
                                 <ModeEditOutlineOutlinedIcon />
                             </IconButton>
+
+                            {/* === UPDATE ICON BUTTON === */}
                             {/* DELETE ICON BUTTON */}
                             <IconButton
                                 className="iconButton"

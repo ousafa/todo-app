@@ -1,4 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, {
+    useContext,
+    useEffect,
+    useState
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import {
     Button,
@@ -22,7 +26,13 @@ import {TodosContext} from "../contexts/todosContext.js";
 
 const Lists = () => {
    const {todos, setTodos} = useContext(TodosContext);
-    const [title, setTitle] = useState('');
+   const [title, setTitle] = useState('');
+
+    useEffect(() => {
+        const storageTodos = JSON.parse(localStorage.getItem("todos"));
+        setTodos(storageTodos);
+    }, []);
+
 
     function handleAddClick() {
         const newTodos = {
@@ -31,7 +41,9 @@ const Lists = () => {
             details: '',
             isCompleted: false,
         }
-        setTodos([...todos, newTodos])
+        const updatedTodos = [...todos, newTodos]
+        setTodos(updatedTodos)
+        localStorage.setItem('todos', JSON.stringify(updatedTodos))
         setTitle('')
 
     }
